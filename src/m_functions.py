@@ -74,11 +74,11 @@ class Currency:
         return converted
 
 # def convert from usd(self, conversion_factor)
-def convertFromUSD(self, conversion_factor):
-	#converted = self.conversion from USD *conversion_factor
-    converted = self.conversion_from_USD *conversion_factor
-#return converted
-    return converted
+    def convertFromUSD(self, conversion_factor):
+        #converted = self.conversion from USD *conversion_factor
+        converted = self.conversion_from_USD * conversion_factor
+    #return converted
+        return converted
 
 
 #class Income(MoneyItem):(aggregate of budget, child of money item)
