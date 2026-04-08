@@ -1,5 +1,5 @@
 #MW_CP2 classes
-
+import pandas as pd
 from helper import choiceInput, floatInput
 
 ##Class Budget: (aggregate with currency, income, expenses, savings)
@@ -11,16 +11,16 @@ class Budget:
 	#3: Savings
 	#4: current currency
     def __init__(self):
-        self.income = {}
-        self.expenses = {}
-        self.savings = {}
-        self.current_currencies = {}
+        self.incomes = {}
+        self.expenses = {"example" : Expense("pets_food", 50, "USD", "pets")}
+        self.savings = {"example" : Saving("cat", 100, 'USD','pets', 20), "example2" : Saving("dog", 1000, 'USD','pets', 80)}
 
 	#addItem(self)
     def addItem(self):
 		#Type = enter item
         type = choiceInput(['income', 'expense', 'saving'], "\nChoose\n\tIf you made money, and would like to add a new income, type 'income'\n\tIf you spent money, and would like to add a new expense, type 'expense'\n\tIf you have a new savings goal, and would like to add one of them, type 'saving'")
 		#Name = enter item
+        name = input
         #Amount = enter amount
 		#Currency = enter currency
 		#If type == ‘income’:
@@ -35,8 +35,7 @@ class Budget:
 		#while true show all of type, ask what they would like to remove
 		#remove item from self.type
 
-	#addCurrency(self)
-		#Self.currenc[name] = currency(name, conversion to usd, conversion from usd)
+	#convertCurrency(self)
 	
 
 		
@@ -50,14 +49,34 @@ class MoneyItem:
 	#2: Amount
 	#3: Currency
     #4: category
-    def __init__(self, name, amount, currency, category):
+    def __init__(self, name, amount, currency, category, date):
         self.name = name
         self.amount = amount
         self.currency = currency
         self.category = category
+        self.date = date
+
+    def convert(self, new_currency):
+        if self.currency != "USD":
+            df = pd.read_csv("docs/currency.csv", skipinitialspace=True)
+            rate = df.loc[df["currency"] == self.currency, "conversion to USD"].iat[0]
+            self.amount *= rate
+            print(df.loc[df["currency"] == self.currency, "conversion to USD"].iat[0])
+            print(self.amount)
+        
+        df = pd.read_csv("docs/currency.csv", skipinitialspace=True)
+        rate = df.loc[df["currency"] == new_currency, "conversion from USD"].iat[0]
+        self.amount *= rate
+        print(df.loc[df["currency"] == new_currency, "conversion from USD"].iat[0])
+        print(self.amount)
+        self.currency = new_currency
+
+
+                
+
 	
 
-#class Currency: (aggregate of budget, child of money item)
+"""#class Currency: (aggregate of budget, child of money item)
 class Currency: 
 #init there will be the values name, conversion to USD, and the Conversion From USD
     def __init__(self, name, abreviation, conversion_to_USD, conversion_from_USD):
@@ -78,7 +97,7 @@ class Currency:
         #converted = self.conversion from USD *conversion_factor
         converted = self.conversion_from_USD * conversion_factor
     #return converted
-        return converted
+        return converted"""
 
 
 #class Income(MoneyItem):(aggregate of budget, child of money item)
@@ -101,10 +120,11 @@ class Expense(MoneyItem):
 #class Saving(MoneyItem)(aggregate of budget, child of money item)
 class Saving(MoneyItem):
 #init will be the amount and name, use the super init function to get those, but this will have another variable called amount saved.
-    def __init__(self, name, amount, currency, category, amount_saved):
-        super().__init__(name, amount, currency, category)
+    def __init__(self, name, amount, currency, category, date, amount_saved):
+        super().__init__(name, amount, currency, category, date)
         self.amount_saved = amount_saved
         self.amount_left = amount - amount_saved
+        self.last_date_payed = ""
 
 #pay:
     def pay(self):
@@ -116,5 +136,6 @@ class Saving(MoneyItem):
 
 #__str__: 
     def __str__(self):
-        return f"{self.name} : Goal : {self.amount} | Amount Saved : {self.amount_saved} | Amount left to save : {self.amount_left}"
+        
+        return f"{self.name} : Goal : {self.amount} | Amount Saved : {self.amount_saved} | Amount left to save : {self.amount_left} "
 # f“Saving: You have saved {self.amount_saved} for Your goal,{self.name}, to raise {self.amount}” 
