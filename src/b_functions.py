@@ -3,7 +3,7 @@ from F_M_functions import *
 
 def csv_to_dictionary():
     savings_list, income_list, expenses_list = [], [], []#Create the lists
-    savings = csv_to_dict("docs/savings.csv")#Get all the information
+    savings = csv_to_dict("docs/saving.csv")#Get all the information
     income = csv_to_dict("docs/income.csv")
     currencies = csv_to_dict("docs/currency.csv")
     expenses = csv_to_dict("docs/expenses.csv")
