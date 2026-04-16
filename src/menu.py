@@ -1,11 +1,14 @@
 from helper import *
-from b_functions import *
-from j_functions import *
+from CSV_Management import *
+from Primary_Classes import *
+from graphs import *
 import sys
 
 def main():#Define the main function, which will be the main menu of the program
     print("Welcome to the Y. T. A. T. Finance Tracker! ")#Give a short welcome to the user
-    user = csv_to_dictionary()#Get the information from the CSV files, and put it in a budget object
+    savings, incomes, expenses, budget = csv_to_dictionary()#Get the information from the CSV files, and put it in a budget object
+    user = classetup(incomes, savings, expenses, budget)
+    
     while True:#Start the main menu loop
         check = choice_input(["1", "2", "3", "4", "5", "6", "7"], "Would you like to: \n1. View your entries \n2. Add an entry \n3. Delete an entry\n4. View statistics \n5. Change your currency\n6. View Totals \n7. Log out \n> ")#Give the user a choice of what they would like to do
         #Call the respective function based on the user's choice

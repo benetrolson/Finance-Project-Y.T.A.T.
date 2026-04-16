@@ -1,10 +1,10 @@
 #This will be the set up for the menu using the GUI
 import tkinter as tk
 from tkinter import *
-from Functions_Edited_ForGUI import *
+from Function_Update import *
 from helper import *
-from b_functions import *
-from j_functions import *
+from CSV_Management import *
+from graphs import *
 import os
 
 root = tk.Tk()

@@ -3,6 +3,18 @@ import pandas as pd
 from helper import *
 import datetime
 
+def classetup(incomes, savings, expenses, budget):
+        incomedict, savingsdict, expensesdict, budgetdict = {}, {}, {}, {}
+        for i in incomes:
+            incomedict[i["name"]] = (Income(amount=i["amount"], category=i["category"], date=i["date"], currency=i["currency"], name=i["name"]))
+        for i in savings:
+            savingsdict[i["name"]] = (Saving(amount=i["amount"], amount_saved=i["amount_saved"], name=i["name"], currency=i["currency"], category=i["category"], date=i["date"]))
+        for i in expenses:
+            expensesdict[i["name"]] = (Expense(amount=i["amount"], category=i["category"], date=i["date"], currency=i["currency"], name=i["name"]))
+        for i in budget:
+            budgetdict[i["name"]] = (BudgetEntry(amount=i["amount"], category=i["category"], date=i["date"], currency=i["currency"], name=i["name"]))
+        return Budget(savings=savingsdict, income=incomedict, expenses=expensesdict, budgets=budgetdict)#Return the information that we got from the CSV files in a budget object, which will be used in the program
+
 ##Class Budget: (aggregate with currency, income, expenses, savings)
 class Budget:
 #init there will 
@@ -11,11 +23,10 @@ class Budget:
 	#2: expenses
 	#3: Savings
 	#4: current currency
-    def __init__(self, income, expenses, savings, budgets, current_currencies):
+    def __init__(self, income, expenses, savings, budgets):
         self.incomes = income
         self.expenses = expenses
         self.savings = savings
-        self.current_currencies = current_currencies
         self.budgets = budgets
         self.categories = []
         for i in self.incomes:
@@ -56,7 +67,6 @@ class Budget:
                 return self.budgets[name]
         else:
             print("It seems that this entry doesn't exist! Maybe you made a typo?")
-
 
 	#addItem(self)
     def additem(self):
@@ -161,19 +171,27 @@ class Budget:
             incomeskeys = self.incomes.keys()
             for income in incomeskeys:
                 print(self.incomes[income])
+            if not incomeskeys:
+                print("You don't have any (more) incomes yet!")
         elif choice == 2:
-            expenses = self.expenses.keys()
-            for expense in expenses:
+            expenseskeys = self.expenses.keys()
+            for expense in expenseskeys:
                 print(self.expenses[expense])
+            if not expenseskeys:
+                print("You don't have any (more) expenses yet!")
         elif choice == 3:
-            savings = self.savings.keys()
-            for saving in savings:
+            savingskeys = self.savings.keys()
+            for saving in savingskeys:
                 print(self.savings[saving])
+            if not savingskeys:
+                print("You don't have any (more) savings yet!")
         elif choice == 4:
-            budgets = self.budgets.keys()
-            for budget in budgets:
+            budgetskeys = self.budgets.keys()
+            for budget in budgetskeys:
                 print(self.budgets[budget])
                 self.ViewTotals(expenses=self.expenses, incomes=self.incomes)
+            if not budgetskeys:
+                print("You don't have any (more) budgets yet!")
         elif choice == 5:
             inclist = self.incomes.keys()
             explist = self.expenses.keys()

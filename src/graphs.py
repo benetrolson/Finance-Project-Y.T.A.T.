@@ -14,3 +14,5 @@ def piegraph(InputCats,inputexpences):
 
         # show plot
         matplotlib.pyplot.show()
+
+# Can someone make like a bargraph or something that shows how much the user has done X out of Y? (EX: saved 100 out of 1000)
