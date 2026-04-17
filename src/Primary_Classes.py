@@ -107,6 +107,7 @@ class Budget:
             case 9:
                 currency = "SEK"
 
+        # checks the item cost and cleans it.
         itemscost = input("How much money was this item in the currency you inputted earlier (if saving, how much have you already saved)?:\n")
         itemscost = gummysint(itemscost)
 
@@ -118,6 +119,8 @@ class Budget:
         
         todaysday = datetime.datetime.now()
 
+
+        # makes the object for the entry
         if entrytype == "income":
             self.incomes[itemname] = Income(itemname, itemscost, currency, category, todaysday)
         elif entrytype == "saving":
@@ -145,6 +148,7 @@ class Budget:
 
         itemname = input("What is the name of this item:\n")
 
+        # checks i the item exists in the entry type, and removes it from the dictionary of items.
         if entrytype == "income":
             self.incomes.pop(itemname)
             self.categories.remove(self.incomes[itemname]["category"].category)
@@ -167,6 +171,8 @@ class Budget:
 
         choice = inputchecker(5)
 
+
+        # Checks for each kind of entry, and uses that class/object list to print its unique info (cannot make shorter because it uses class attributes)
         if choice == 1:
             incomeskeys = self.incomes.keys()
             for income in incomeskeys:
